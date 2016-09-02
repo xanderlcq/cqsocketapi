@@ -21,9 +21,10 @@ void prcsClientHello(const char *payload) {
 	strcpy(input, payload);
 	ipv4 = strtok(input, splitter);
 	port = strtok(NULL, ":");
-	int temp = atoi(port);
-	char log[1024];
-	client->add(temp, ipv4);
+	int port_number = atoi(port);
+
+	client->add(port_number, ipv4);
+
 	char* buffer = "ServerHello";
 	client->send(buffer, strlen(buffer));
 }
