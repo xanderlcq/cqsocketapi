@@ -15,18 +15,23 @@ extern int appAuthCode;
 * Message Processer
 ********/
 void prcsClientHello(const char *payload) {
-	char *ipv4, *port;
-	char* splitter = ":";
-	char *input = new char[strlen(payload) + 1];
-	strcpy(input, payload);
-	ipv4 = strtok(input, splitter);
-	port = strtok(NULL, ":");
-	int port_number = atoi(port);
+	try {
+		char *ipv4, *port;
+		char* splitter = ":";
+		char *input = new char[strlen(payload) + 1];
+		strcpy(input, payload);
+		ipv4 = strtok(input, splitter);
+		port = strtok(NULL, ":");
+		int port_number = atoi(port);
 
-	client->add(port_number, ipv4);
+		client->add(port_number, ipv4);
 
-	char* buffer = "ServerHello";
-	client->send(buffer, strlen(buffer));
+		char* buffer = "ServerHello";
+		client->send(buffer, strlen(buffer));
+	}
+	catch (...) {
+		
+	}
 }
 
 void prcsPrivateMessage(const char *payload) {
