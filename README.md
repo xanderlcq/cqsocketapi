@@ -34,16 +34,11 @@ Prefix = 'PrivateMessage'
 Payload = QQ + EncodedText
 
 Prefix = 'GroupMessage'
-Payload = GroupID + QQ + EncodedText
+Payload = GroupID + QQ + +EncodedGroupNickName + EncodedText
 
 Prefix = 'DiscussMessage'
 Payload = DiscussID + QQ + EncodedText
 
-Prefix = 'GroupMemberDecrease'
-Payload = GroupID + QQ + OperatedQQ
-
-Prefix = 'GroupMemberIncrease'
-Payload = GroupID + QQ + OperatedQQ
 
 EncodedText = base64_encode( GBK_encode( text ) )
 ```
