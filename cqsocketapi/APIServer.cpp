@@ -22,11 +22,7 @@ void prcsClientHello(const char *payload) {
 	ipv4 = strtok(input, splitter);
 	port = strtok(NULL, ":");
 	int temp = atoi(port);
-	//CQ_addLog(appAuthCode, CQLOG_INFO,"APIClient", ipv4);
-	//CQ_addLog(appAuthCode, CQLOG_INFO, "APIClient", port);
 	char log[1024];
-	//sprintf_s(log, "Client added: %d.", temp);
-	//CQ_addLog(appAuthCode, CQLOG_INFO, "APIClient", log);
 	client->add(temp, ipv4);
 	char* buffer = "ServerHello";
 	client->send(buffer, strlen(buffer));
