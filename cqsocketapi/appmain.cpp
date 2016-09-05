@@ -23,7 +23,8 @@ int CLIENT_TIMEOUT = 300;
 int FRAME_PREFIX_SIZE = 256;
 int FRAME_PAYLOAD_SIZE = 32768;
 int FRAME_SIZE = 33025;
-
+int FILTER_ID = 1;
+char FILTER = '#';
 unsigned __stdcall startServer(void *args) {
 	server = new APIServer();
 	server->run();
@@ -104,6 +105,7 @@ CQEVENT(int32_t, __eventEnable, 0)() {
 	tryGetInt(CLIENT_TIMEOUT);
 	tryGetInt(FRAME_PREFIX_SIZE);
 	tryGetInt(FRAME_PAYLOAD_SIZE);
+	tryGetInt(FILTER_ID);
 
 	FRAME_SIZE = (FRAME_PREFIX_SIZE + FRAME_PAYLOAD_SIZE + 1);
 
@@ -112,7 +114,12 @@ CQEVENT(int32_t, __eventEnable, 0)() {
 	unsigned tid;
 	HANDLE thd;
 	thd = (HANDLE)_beginthreadex(NULL, 0, startServer, NULL, 0, &tid);
-
+	if (FILTER_ID == 1) {
+		FILTER = '#';
+	}
+	else if (FILTER_ID == 2) {
+		FILTER = '$';
+	}
 	return 0;
 }
 
@@ -150,7 +157,9 @@ CQEVENT(int32_t, __eventPrivateMsg, 24)(int32_t subType, int32_t sendTime, int64
 * Type=2 ÈºÏûÏ¢
 */
 CQEVENT(int32_t, __eventGroupMsg, 36)(int32_t subType, int32_t sendTime, int64_t fromGroup, int64_t fromQQ, const char *fromAnonymous, const char *msg, int32_t font) {
-
+	if (msg[0] != FILTER) {
+		return EVENT_IGNORE;
+	}
 	struct CQ_Type_GroupMember memberinfo;
 	MemberInfoProccessor proc;
 	bool gotInfo = proc.GetGroupMemberInfo(appAuthCode, fromGroup, fromQQ, memberinfo);

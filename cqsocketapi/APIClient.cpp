@@ -5,7 +5,7 @@
 #include "APIClient.h"
 
 extern int appAuthCode;
-//test
+
 
 APIClient::APIClient(void)
 {
@@ -58,7 +58,7 @@ void APIClient::add(const int port, const char *ip)
 	}
 	// Send a warning when client cap if full.
 	else {
-		sprintf_s(log, "Client cap is full! Cannot add client: %s:%d.", ip, port);
+		sprintf_s(log, "Client pool is full! Cannot add client: %s:%d.", ip, port);
 		CQ_addLog(appAuthCode, CQLOG_WARNING, "APIClient", log);
 	}
 }
